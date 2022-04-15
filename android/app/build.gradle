@@ -23,8 +23,6 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-// 导入MobSDK
-apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion flutter.compileSdkVersion
@@ -52,10 +50,27 @@ android {
     }
 }
 
+// 导入MobSDK
+apply plugin: 'com.mob.sdk'
 MobSDK {
     // 灰度：17adc4c482143，非灰：34adc4c48214f
     appKey '17adc4c482143'
     appSecret "0da6fae9f10701ca5c26c4270c07c221"
+//    ShareSDK {
+////        version '3.9.6'
+//        loopShare false
+//        devInfo {
+//            Wechat {
+//                appId "wx4868b35061f87885"
+//                appSecret "64020361b8ec4c99936c0e3999a9f249"
+//                userName "gh_afb25ac019c9"
+//                path "pages/index/index.html?id=1"
+//                withShareTicket true
+//                miniprogramType 2
+//            }
+//        }
+//    }
+    SMSSDK{}
 }
 
 flutter {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobsms/mobsms.dart';
-import 'package:mobcommonlib/mobcommonlib.dart';
+// import 'package:mobsms/mobsms.dart';
+// import 'package:mobcommonlib/mobcommonlib.dart';
+import 'package:fake_common/fake_common.dart';
 
 void main() {
   runApp(const MyApp());
@@ -77,34 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, i)=> renderRow(i,context),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -113,5 +91,68 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Widget renderRow(i, BuildContext context){
+    return Column(
+
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          height: 30,
+        ),
+        ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: double.infinity),
+          child: FlatButton(
+            color: Colors.blueGrey,
+            textColor: Colors.white,
+            child: const Text('打开隐私协议弹框'),
+            onPressed: (){
+              showPrivacyAlert('是否同意隐私协议？',context);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  void showPrivacyAlert(String text, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+            title: const Text("隐私协议"),
+            content: Text(text),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text("同意"),
+                onPressed: () {
+                  // 关闭弹框
+                  Navigator.of(context).pop();
+                  FakeCommon.submitPolicyGrantResult(true, (dynamic ret, Map err) => {
+                    if(err!=null) {
+                      // nothing to do
+                    } else {
+                      // nothing to do
+                    }
+                  });
+                },
+              ),
+              FlatButton(
+                child: const Text("拒绝"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  FakeCommon.submitPolicyGrantResult(false, (dynamic ret, Map err) => {
+                    if(err!=null)
+                      {
+                        // nothing to do
+                      }
+                    else
+                      {
+                        // nothing to do
+                      }
+                  });
+                },
+              )
+            ]));
   }
 }
