@@ -76,3 +76,7 @@ MobSDK {
 flutter {
     source '../..'
 }
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"], exclude: [])
+}
