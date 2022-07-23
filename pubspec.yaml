@@ -29,8 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  mobsms: ^1.0.0    #指定最低版本，不填也可
-#  mobcommonlib: ^1.0.2
+  mobsms: ^1.0.0    #指定最低版本，不填也可
+  mobcommonlib:
 #  sharesdk_plugin:
 #  mobpush_plugin:
   fake_common:
